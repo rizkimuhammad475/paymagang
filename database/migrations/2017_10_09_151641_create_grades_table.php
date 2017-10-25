@@ -15,7 +15,10 @@ class CreateGradesTable extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('grade');
+            $table->integer('division_id')->unsigned()->index('grades_division_id_foreign');
+            $table->foreign('division_id')->references('id')->on('divisions')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->integer('step_id')->unsigned()->index('grades_step_id_foreign');
+            $table->foreign('step_id')->references('id')->on('steps')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 

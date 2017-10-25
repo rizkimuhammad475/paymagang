@@ -16,7 +16,7 @@
                                       </option>
                                     </select>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8" v-if="selected != 0">
                                   <input type="search" class="form-control" placeholder="Search" v-on:keyup="fetchDataStudent()" v-model="search" required="true">
                                 </div>
                               </div>           
@@ -85,6 +85,7 @@
                   { text: 'Two', value: 'B' },
                   { text: 'Three', value: 'C' }
                 ],
+                callprice:0,
                 link:'pay/detail/',
                 url:'pay/getdata',
                 addData:{'price':''}
@@ -110,6 +111,7 @@
                         .then(function (response) {
                             Vue.set(vm.$data, 'grade',response.data.grade)
                             Vue.set(vm.$data, 'student',response.data.student)
+                            Vue.set(vm.$data, 'callprice',response.data.callprice)
 
                         })
             },
@@ -122,12 +124,17 @@
                 if (dataInput.price == "") {
                     alert('Price can not be empty')
                 }else{
-                axios.post('pay/pay/'+sid+'?search='+this.search+'&grade='+this.selected, dataInput)
+                    if (dataInput.price > vm.callprice) {
+                        alert('Pay can not be more than price')
+                    }else{
+                        axios.post('pay/pay/'+sid+'?search='+this.search+'&grade='+this.selected, dataInput)
                         .then(function (response) {
                             Vue.set(vm.$data, 'grade',response.data.grade)
                             Vue.set(vm.$data, 'student',response.data.student)
+                            Vue.set(vm.$data, 'callprice',response.data.callprice)
                             alert('Pay Successfully')
                         })
+                    }
                 }
             }
         }

@@ -17,12 +17,9 @@ class CreateStudentsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('gender');
-            $table->string('nisn');
-            $table->string('nis');
+            $table->integer('nis');
             $table->integer('grade_id')->unsigned()->index('students_grade_id_foreign');
             $table->foreign('grade_id')->references('id')->on('grades')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->integer('division_id')->unsigned()->index('students_division_id_foreign');
-            $table->foreign('division_id')->references('id')->on('divisions')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

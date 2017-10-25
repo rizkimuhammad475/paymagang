@@ -13,25 +13,33 @@
                                                     <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Step</label>
                             <div class="col-sm-10">
-                              <select name="step_id" class="form-control">
-                                  @foreach($data['steps'] as $index => $step)
-                                    
-                                      <option value="{{$step->id}}">{{$step->step}}</option>
+                            	@if($data['steps']->count() == null)
+	                            	<a href="{{ url('admin/manage/step/') }}" class="btn btn-success" style="text-align: center;width: 100%">ADD Step</a>
+	                            @else
+	                            	<select name="step_id" class="form-control">
+	                                  @foreach($data['steps'] as $index => $step)
+	                                    
+	                                      <option value="{{$step->id}}">{{$step->step}}</option>
 
-                                  @endforeach
-                              </select>
+	                                  @endforeach
+	                              	</select>
+	                            @endif
                             </div>
                           </div>
                           <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Division</label>
                             <div class="col-sm-10">
-                              <select name="division_id" class="form-control">
-                                  @foreach($data['divisions'] as $index => $division)
-                                   
-                                      <option value="{{$division->id}}">{{$division->division_name}}</option>
+                            	@if($data['divisions']->count() == null)
+	                            	<a href="{{ url('admin/manage/division/') }}" class="btn btn-success" style="text-align: center;width: 100%">ADD Division</a>
+	                            @else
+	                            	<select name="division_id" class="form-control">
+	                                  @foreach($data['divisions'] as $index => $division)
+	                                   
+	                                      <option value="{{$division->id}}">{{$division->division_name}}</option>
 
-                                  @endforeach
-                              </select>
+	                                  @endforeach
+	                              	</select>
+	                            @endif
                             </div>
                           </div>
                            <div class="form-group">
@@ -55,18 +63,26 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach( $data['grades'] as $index => $grade )
-					<tr>
-						<td data-title="No">{{ ++$index }}</td>
-						<td data-title="Category">{{ $grade->steps()->first()->step }}</td>
-						<td data-title="Category">{{ $grade->divisions()->first()->division_name }}</td>
-						<td data-title="Category">{{ $grade->divisions()->first()->courses()->first()->course_name }}</td>
-						<td class="text-center" data-title="Price">
-							<a href="{{ url('admin/manage/grade/edit/'.$grade->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
-							<a href="{{ url('admin/manage/grade/destroy/'.$grade->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-						</td>
-					</tr>
-					@endforeach
+					@if($data['grades']->count() == null)
+						<tr>
+							<td colspan="5" style="text-align: center;padding: 10px;">
+								<h3>There is nothing grade</h3>
+							</td>
+						</tr>
+					@else
+						@foreach( $data['grades'] as $index => $grade )
+							<tr>
+								<td data-title="No">{{ ++$index }}</td>
+								<td data-title="Category">{{ $grade->steps()->first()->step }}</td>
+								<td data-title="Category">{{ $grade->divisions()->first()->division_name }}</td>
+								<td data-title="Category">{{ $grade->divisions()->first()->courses()->first()->course_name }}</td>
+								<td class="text-center" data-title="Price">
+									<a href="{{ url('admin/manage/grade/edit/'.$grade->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+									<a href="{{ url('admin/manage/grade/destroy/'.$grade->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Want To Delete This Grade ? ')"><i class="fa fa-trash-o"></i></a>
+								</td>
+							</tr>
+						@endforeach
+					@endif
 				</tbody>
 			</table>
 			<!--  -->

@@ -11,9 +11,11 @@
 	                  <div class="col-lg-12 main-chart">
 
 	                  @include('partials.notif')
-	                  	<div class="col-md-12 alert alert-warning">
-	              			<span>Please read the guides before you use this program</span>
-	              		</div>
+	                  	@if(\Auth::user()->read_guide == 0)
+	                  		<div class="col-md-12 alert alert-warning">
+		              			<span>Please read the guides before you use this program</span>
+		              		</div>
+	                  	@endif
 	                  	@if(\Auth::user()->role_id != 3)
 							<div class="row mtbox">
 		                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
@@ -49,11 +51,22 @@
 		                  		<div class="col-md-2 col-sm-2 box0">
 		                  			<div class="box1">
 							  			<span class="li_banknote"></span>
-							  			<h3>{{Callprice()}}</h3>
+							  			<h3>
+							  			@if(Callprice() != null)
+							  				{{Callprice()}}
+							  			@else
+							  				Nothing
+							  			@endif
+							  			</h3>
 		                  			</div>
 							  			<p>
-							  			Hy {{\Auth::user()->username}}<br>
-							  			The current price for internship payment is {{Callprice()}}
+							  			@if(Callprice() != null)
+							  				Hy {{\Auth::user()->username}}<br>
+							  				The current price for internship payment is {{Callprice()}}
+							  			@else
+							  				Hy {{\Auth::user()->username}}<br>
+							  				Please declare the price
+							  			@endif
 							  			</p>
 		                  		</div>
 		                  		<div class="col-md-2 col-sm-2 box0">

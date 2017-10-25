@@ -29,20 +29,28 @@
 			<table class="table table-bordered">
 				<thead class="cf">
 					<tr>
-						<th>Course</th>
+						<th class="text-center">Step</th>
 						<th class="text-center">Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					@foreach( $data['steps'] as $index => $step )
-					<tr>
-						<td data-title="Category">{{ $step->step }}</td>
-						<td class="text-center" data-title="Price">
-							<a href="{{ url('admin/manage/step/edit/'.$step->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
-							<a href="{{ url('admin/manage/step/destroy/'.$step->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-						</td>
-					</tr>
-					@endforeach
+					@if($data['steps']->count() == null)
+						<tr>
+							<td colspan="4" style="text-align: center;padding: 10px;">
+								<h3>There is nothing step</h3>
+							</td>
+						</tr>
+					@else
+						@foreach( $data['steps'] as $index => $step )
+							<tr>
+								<td data-title="Category">{{ $step->step }}</td>
+								<td class="text-center" data-title="Price">
+									<a href="{{ url('admin/manage/step/edit/'.$step->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+									<a href="{{ url('admin/manage/step/destroy/'.$step->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Want To Delete This Step ? ')"><i class="fa fa-trash-o"></i></a>
+								</td>
+							</tr>
+						@endforeach
+					@endif
 				</tbody>
 			</table>
 			<!--  -->

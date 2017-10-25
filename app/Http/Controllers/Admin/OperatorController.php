@@ -37,6 +37,7 @@ class OperatorController extends Controller
 		$user->username 							= $request->username;
 		$user->email 								= $request->email;
 		$user->password 							= bcrypt($request->password);
+		$user->created_at							= date('Y-m-d H:i:s');
 		$user->role_id 								= 3;
 		$user->course_id 							= $request->course_id;
 		$user->save();

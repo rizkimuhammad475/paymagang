@@ -42113,6 +42113,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             selected: '0',
             price: '',
             options: [{ text: 'One', value: 'A' }, { text: 'Two', value: 'B' }, { text: 'Three', value: 'C' }],
+            callprice: 0,
             link: 'pay/detail/',
             url: 'pay/getdata',
             addData: { 'price': '' }
@@ -42139,6 +42140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?search=' + this.search + '&grade=' + this.selected).then(function (response) {
                 Vue.set(vm.$data, 'grade', response.data.grade);
                 Vue.set(vm.$data, 'student', response.data.student);
+                Vue.set(vm.$data, 'callprice', response.data.callprice);
             });
         },
         detail: function detail(sid) {
@@ -42150,11 +42152,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (dataInput.price == "") {
                 alert('Price can not be empty');
             } else {
-                __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('pay/pay/' + sid + '?search=' + this.search + '&grade=' + this.selected, dataInput).then(function (response) {
-                    Vue.set(vm.$data, 'grade', response.data.grade);
-                    Vue.set(vm.$data, 'student', response.data.student);
-                    alert('Pay Successfully');
-                });
+                if (dataInput.price > vm.callprice) {
+                    alert('Pay can not be more than price');
+                } else {
+                    __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('pay/pay/' + sid + '?search=' + this.search + '&grade=' + this.selected, dataInput).then(function (response) {
+                        Vue.set(vm.$data, 'grade', response.data.grade);
+                        Vue.set(vm.$data, 'student', response.data.student);
+                        Vue.set(vm.$data, 'callprice', response.data.callprice);
+                        alert('Pay Successfully');
+                    });
+                }
             }
         }
     }
@@ -42207,7 +42214,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": option.id
       }
     }, [_vm._v("\n                                    " + _vm._s(option.step) + " " + _vm._s(option.division_name) + "\n                                  ")])
-  })], 2)]), _vm._v(" "), _c('div', {
+  })], 2)]), _vm._v(" "), (_vm.selected != 0) ? _c('div', {
     staticClass: "col-md-8"
   }, [_c('input', {
     directives: [{
@@ -42234,7 +42241,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.search = $event.target.value
       }
     }
-  })])])])])]), _vm._v(" "), _c('div', {
+  })]) : _vm._e()])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
   }, [_c('div', {
     staticClass: "form-panel col-md-12"
@@ -42569,6 +42576,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -42751,7 +42761,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": _vm.expcsv
     }
-  }, [_vm._v("Export csv")])])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Export csv")])])])])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
   }, [_c('div', {
     staticClass: "form-panel col-md-12"
@@ -42760,7 +42770,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "padding": "0px"
     }
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "col-md-12",
     staticStyle: {
       "padding": "0px"
@@ -42884,7 +42894,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.addData.price = $event.target.value
         }
       }
-    })]), _vm._v(" "), _vm._m(2, true)])]), _vm._v(" "), _c('div', {
+    })]), _vm._v(" "), _vm._m(3, true)])]), _vm._v(" "), _c('div', {
       staticClass: "col-md-2"
     }, [_c('input', {
       staticClass: "btn btn-danger",
@@ -42909,6 +42919,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-angle-right"
   }), _vm._v(" Search Transaction")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12",
+    staticStyle: {
+      "text-align": "center",
+      "padding": "10px 0px"
+    }
+  }, [_c('h3', [_vm._v("There is nothing transactions")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "cf col-md-12",
@@ -43089,6 +43107,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -43099,7 +43121,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             grade: {},
             search: '',
             editForm: '',
-            selected: '1',
+            selected: '0',
             inpart: '3',
             price: '',
             parts: [{ text: 'Pay Complete', value: '3' }, { text: 'Not Complete', value: '2' }, { text: 'Not Pay', value: '1' }],
@@ -43185,13 +43207,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.selected = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
-  }, _vm._l((_vm.grade), function(option) {
+  }, [_c('option', {
+    domProps: {
+      "value": 0
+    }
+  }, [_vm._v("Choose the grade")]), _vm._v(" "), _vm._l((_vm.grade), function(option) {
     return _c('option', {
       domProps: {
         "value": option.id
       }
     }, [_vm._v("\n                                    " + _vm._s(option.step) + " " + _vm._s(option.division_name) + "\n                                  ")])
-  }))]), _vm._v(" "), _c('div', {
+  })], 2)]), _vm._v(" "), (_vm.selected != 0) ? _c('div', {
     staticClass: "col-md-3",
     staticStyle: {
       "margin": "5px 0px"
@@ -43220,7 +43246,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.search = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  })]) : _vm._e(), _vm._v(" "), (_vm.selected != 0) ? _c('div', {
     staticClass: "col-md-3",
     staticStyle: {
       "margin": "5px 0px"
@@ -43253,7 +43279,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": part.value
       }
     }, [_vm._v(_vm._s(part.text))])
-  }))]), _vm._v(" "), _c('div', {
+  }))]) : _vm._e(), _vm._v(" "), (_vm.selected != 0) ? _c('div', {
     staticClass: "col-md-2",
     staticStyle: {
       "margin": "5px 0px"
@@ -43266,7 +43292,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": _vm.pdf + _vm.selected + _vm.dummy + _vm.inpart
     }
-  }, [_vm._v("To PDF")])])])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("To PDF")])]) : _vm._e()])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
   }, [_c('div', {
     staticClass: "form-panel col-md-12"
@@ -43321,7 +43347,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "padding": "0px"
     }
-  }, _vm._l((_vm.student), function(s) {
+  }, [(_vm.selected == 0) ? _c('div', {
+    staticClass: "col-md-12",
+    staticStyle: {
+      "text-align": "center",
+      "padding": "10px 0px"
+    }
+  }, [_c('h3', [_vm._v("Choose the grade")])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.student), function(s) {
     return _c('div', {
       staticClass: "col-md-12",
       staticStyle: {
@@ -43373,7 +43405,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('i', {
       staticClass: "fa fa-user"
     })])])])])
-  }))])])])])
+  })], 2)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h4', {
     staticClass: "mb"
@@ -43722,6 +43754,103 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -43734,7 +43863,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             guideon: '1',
             selected: '1',
             price: '',
-            options: [{ text: 'Introduction', value: '1' }, { text: 'Manage admin and rule of admin Page', value: '2' }, { text: 'Manage operator and rule of operator page', value: '3' }, { text: 'Manage student and rule of student page', value: '4' }, { text: 'Rule of feedback', value: '5' }, { text: 'Rule of transaction and the function', value: '6' }, { text: 'Rule of student in status and the function', value: '7' }, { text: 'How to create class', value: '8' }, { text: 'How to declare price', value: '9' }, { text: 'How to pay', value: '10' }],
+            options: [{ text: 'Introduction', value: '1' }, { text: 'Manage admin and rule of admin Page', value: '2' }, { text: 'Manage operator and rule of operator page', value: '3' }, { text: 'Manage student and rule of student page', value: '4' }, { text: 'Rule of feedback', value: '5' }, { text: 'Rule of transaction and the function', value: '6' }, { text: 'Rule of student in status and the function', value: '7' }, { text: 'Setting Courses,Divisions,Steps and Grades', value: '8' }, { text: 'How to declare and edit price', value: '9' }, { text: 'How to pay', value: '10' }, { text: 'Import data students from xls,xlsx,csv format', value: '11' }],
             link: 'pay/detail/',
             pdfit: 'transaction/pdfit/',
             pdfall: 'transaction/pdfall',
@@ -43839,7 +43968,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-12"
   }, [_vm._m(18), _vm._v(" "), _vm._m(19), _vm._v(" "), _vm._m(20), _vm._v(" "), _vm._m(21), _vm._v(" "), _vm._m(22)]) : _vm._e(), _vm._v(" "), (_vm.selected == 7) ? _c('div', {
     staticClass: "col-md-12"
-  }, [_vm._m(23), _vm._v(" "), _vm._m(24), _vm._v(" "), _vm._m(25), _vm._v(" "), _vm._m(26), _vm._v(" "), _vm._m(27)]) : _vm._e()])])])])
+  }, [_vm._m(23), _vm._v(" "), _vm._m(24), _vm._v(" "), _vm._m(25)]) : _vm._e(), _vm._v(" "), (_vm.selected == 8) ? _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._m(26), _vm._v(" "), _vm._m(27), _vm._v(" "), _vm._m(28), _vm._v(" "), _vm._m(29), _vm._v(" "), _vm._m(30)]) : _vm._e(), _vm._v(" "), (_vm.selected == 9) ? _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._m(31), _vm._v(" "), _vm._m(32), _vm._v(" "), _vm._m(33)]) : _vm._e(), _vm._v(" "), (_vm.selected == 10) ? _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._m(34), _vm._v(" "), _vm._m(35), _vm._v(" "), _vm._m(36)]) : _vm._e(), _vm._v(" "), (_vm.selected == 11) ? _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._m(37)]) : _vm._e()])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-12"
@@ -43924,6 +44061,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h4', [_vm._v("Create Student")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
   }, [_vm._v("\n                            To create or add new student you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Students")]), _vm._v(" and choose "), _c('b', [_vm._v("COURSE NAME")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(",and you can create students by filling the input like "), _c('b', [_vm._v("NAME,NIS,GENDER")]), _vm._v(",then click create button."), _c('br'), _vm._v(" "), _c('span', {
+    staticStyle: {
+      "color": "green"
+    }
+  }, [_vm._v("\n                                (Tips : you can import data students from format "), _c('b', [_vm._v("xlsx,xls,csv")]), _vm._v(" by set data table "), _c('b', [_vm._v("name,nis,gender")]), _vm._v(")\n                            ")]), _c('br'), _vm._v(" "), _c('span', {
     staticStyle: {
       "color": "red"
     }
@@ -44039,43 +44180,97 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-12"
-  }, [_c('h4', [_vm._v("Read Transactions")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("Read Status Students")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
-  }, [_vm._v("\n                            To read transactions you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Transactions")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" and you can search transactions by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v("."), _c('br'), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n                            To read status students you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Students")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" and "), _c('b', [_vm._v("Category(Complete/Not Complete/Not Pay)")]), _vm._v(",then you can search status students by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v("."), _c('br'), _vm._v(" "), _c('span', {
     staticStyle: {
-      "color": "red"
+      "color": "green"
     }
-  }, [_vm._v("\n                            (ATTENTION : user can read the transactions only "), _c('b', [_vm._v("SUPER ADMIN")]), _vm._v(" and "), _c('b', [_vm._v("ADMIN")]), _vm._v(","), _c('b', [_vm._v("OPERATOR")]), _vm._v(" can't read the transactions)\n                            ")])])])
+  }, [_vm._v("\n                                (Tips : you can export data students to format "), _c('b', [_vm._v("PDF")]), _vm._v(",click button "), _c('b', [_vm._v("To PDF")]), _vm._v(" and data in grade and category will be export to PDF)\n                            ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-12"
-  }, [_c('h4', [_vm._v("Edit Transactions")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("Detail Status Students")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
-  }, [_vm._v("\n                            To edit transactions you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Transactions")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" and you can search transactions by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v(",then click green button with the pencil icon and write the new transactions to edit,after that click "), _c('b', [_vm._v("EDIT")]), _vm._v(" button."), _c('br'), _vm._v(" "), _c('span', {
-    staticStyle: {
-      "color": "red"
-    }
-  }, [_vm._v("\n                            (ATTENTION : user can read the transactions only "), _c('b', [_vm._v("SUPER ADMIN")]), _vm._v(" and "), _c('b', [_vm._v("ADMIN")]), _vm._v(","), _c('b', [_vm._v("OPERATOR")]), _vm._v(" can't read the transactions)\n                            ")])])])
+  }, [_vm._v("\n                            To read detail status students you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Transactions")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" and you can search transactions by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v(",then click blue button with the user icon."), _c('br')])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-12"
-  }, [_c('h4', [_vm._v("Delete Transactions")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("Rule Of Settings")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
-  }, [_vm._v("\n                            To delete transactions you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Transactions")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" and you can search transactions by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v(",then click red button with the trash icon."), _c('br'), _vm._v(" "), _c('span', {
-    staticStyle: {
-      "color": "red"
-    }
-  }, [_vm._v("\n                            (ATTENTION : user can read the transactions only "), _c('b', [_vm._v("SUPER ADMIN")]), _vm._v(" and "), _c('b', [_vm._v("ADMIN")]), _vm._v(","), _c('b', [_vm._v("OPERATOR")]), _vm._v(" can't read the transactions)\n                            ")])])])
+  }, [_vm._v("\n                            Settings page only can access by "), _c('b', [_vm._v("SUPER ADMIN")]), _vm._v(" and "), _c('b', [_vm._v("ADMIN")]), _vm._v(","), _c('b', [_vm._v("OPERATOR")]), _vm._v(" can't access Settings page.\n                        ")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "col-md-12"
-  }, [_c('h4', [_vm._v("Detail Transactions")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("Create Courses")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
-  }, [_vm._v("\n                            To read detail transactions you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Transactions")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" and you can search transactions by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v(",then click blue button with the user icon."), _c('br'), _vm._v(" "), _c('span', {
+  }, [_vm._v("\n                            To create or add new course you can access "), _c('b', [_vm._v("Settings")]), _vm._v(" > "), _c('b', [_vm._v("Courses")]), _vm._v(",after that insert "), _c('b', [_vm._v("Course Name")]), _vm._v(" like "), _c('b', [_vm._v("KOMPUTER,BANGUNAN,LISTRIK")]), _vm._v("."), _c('br'), _vm._v(" "), _c('span', {
     staticStyle: {
       "color": "red"
     }
-  }, [_vm._v("\n                            (ATTENTION : user can read the transactions only "), _c('b', [_vm._v("SUPER ADMIN")]), _vm._v(" and "), _c('b', [_vm._v("ADMIN")]), _vm._v(","), _c('b', [_vm._v("OPERATOR")]), _vm._v(" can't read the transactions)\n                            ")])])])
+  }, [_vm._v("\n                            (ATTENTION : if you create course,first you must create course for admin,course for admin is "), _c('b', [_vm._v("CENTER")]), _vm._v(" if you have this course don't delete this courses)\n                            ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Create Divisions")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            To create or add new course you can access "), _c('b', [_vm._v("Settings")]), _vm._v(" > "), _c('b', [_vm._v("Divisions")]), _vm._v(",after that insert "), _c('b', [_vm._v("Division Name")]), _vm._v(" like "), _c('b', [_vm._v("REKAYASA PERANGKAT LUNAK 1 or TEKNIK BODY OTOMOTIF")]), _vm._v(",then choose the course name."), _c('br')])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Create Steps")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            To create or add new step you can access "), _c('b', [_vm._v("Settings")]), _vm._v(" > "), _c('b', [_vm._v("Steps")]), _vm._v(",after that insert "), _c('b', [_vm._v("Step")]), _vm._v(" like "), _c('b', [_vm._v("X,XI,XII")]), _vm._v("."), _c('br')])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Create Grades")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            To create or add new grade you can access "), _c('b', [_vm._v("Settings")]), _vm._v(" > "), _c('b', [_vm._v("Grades")]), _vm._v(",after that select "), _c('b', [_vm._v("Division Name")]), _vm._v(" like "), _c('b', [_vm._v("REKAYASA PERANGKAT LUNAK 1 or TEKNIK BODY OTOMOTIF")]), _vm._v(" and select Step"), _vm._v(" like "), _c('b', [_vm._v("X,XI,XII")]), _vm._v("."), _c('br')])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Rule To Declare Price")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            Price page only can access by "), _c('b', [_vm._v("SUPER ADMIN")]), _vm._v(" and "), _c('b', [_vm._v("ADMIN")]), _vm._v(","), _c('b', [_vm._v("OPERATOR")]), _vm._v(" can't access Price page.\n                        ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Declare Price")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            To declare price you can access "), _c('b', [_vm._v("Price")]), _vm._v(",after that insert price and click button "), _c('b', [_vm._v("Declare")]), _vm._v(".\n                        ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Edit Price")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            To edit price you can access "), _c('b', [_vm._v("Price")]), _vm._v(",after that insert price and click button "), _c('b', [_vm._v("Edit")]), _vm._v(".\n                        ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Rule To Pay")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            Pay page can access by "), _c('b', [_vm._v("EVERY USERS")]), _vm._v(".\n                        ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Pay")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            To pay you can access "), _c('b', [_vm._v("Pay")]), _vm._v(",and choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" then you can search student by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v(",click green button with the money icon and the form to pay will be appear,then insert the price to pay,after that click pay button.\n                        ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Detail Students")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            To read detail students you can access "), _c('b', [_vm._v("Pay")]), _vm._v(",after that choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(" and you can search student by "), _c('b', [_vm._v("STUDENT NAME")]), _vm._v(",then click blue button with the user icon."), _c('br')])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', [_vm._v("Import data students")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_vm._v("\n                            \n                            To import data students you must create data like table bellow."), _c('br'), _vm._v(" "), _c('table', {
+    staticClass: "table table-bordered"
+  }, [_c('thead', [_c('tr', [_c('th', [_vm._v("nis")]), _vm._v(" "), _c('th', [_vm._v("name")]), _vm._v(" "), _c('th', [_vm._v("gender")])])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_vm._v("11522599")]), _vm._v(" "), _c('td', [_vm._v("Abis Ismail")]), _vm._v(" "), _c('td', [_vm._v("laki-laki")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("11522600")]), _vm._v(" "), _c('td', [_vm._v("Achmad Aldy Sutanto")]), _vm._v(" "), _c('td', [_vm._v("laki-laki")])]), _vm._v(" "), _c('tr', [_c('td', [_vm._v("11522601")]), _vm._v(" "), _c('td', [_vm._v("Ademay Elida")]), _vm._v(" "), _c('td', [_vm._v("perempuan")])])])]), _vm._v("\n                            Then you can access "), _c('b', [_vm._v("Manage")]), _vm._v(" > "), _c('b', [_vm._v("Students")]), _vm._v(",choose "), _c('b', [_vm._v("COURSE NAME")]), _vm._v(",then choose "), _c('b', [_vm._v("GRADE NAME")]), _vm._v(",after that click "), _c('b', [_vm._v("IMPORT")]), _vm._v(",to import data students file format must be on "), _c('b', [_vm._v("xls,xlsx,csv")]), _vm._v(".\n                        ")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

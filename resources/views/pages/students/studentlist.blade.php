@@ -65,42 +65,41 @@
 	</div><!-- /col-md-12 -->
 	<div class="col-lg-8">
 		<div class="form-panel">
-			<h4 class="mb"><i class="fa fa-angle-right"></i>
+        <h4 class="mb"><i class="fa fa-angle-right"></i>
                 {{$data['grades']->steps()->first()->step}} {{$data['grades']->divisions()->first()->division_name}}
             </h4>
 
-            <div class="btn-group col-md-12 mb" style="padding: 0px;">
-			  <a href="{{ url('admin/manage/student/export/'.$data['grades']->id.'/xlsx') }}" class="btn btn-primary col-md-4">Export xlsx</a>
-			  <a href="{{ url('admin/manage/student/export/'.$data['grades']->id.'/xls') }}" class="btn btn-primary col-md-4">Export xls</a>
-			  <a href="{{ url('admin/manage/student/export/'.$data['grades']->id.'/csv') }}" class="btn btn-primary col-md-4">Export csv</a>
-			</div>
+      <div class="btn-group col-md-12 mb" style="padding: 0px;">
+        <a href="{{ url('admin/manage/student/export/'.$data['grades']->id.'/xlsx') }}" class="btn btn-primary col-md-4">Export xlsx</a>
+        <a href="{{ url('admin/manage/student/export/'.$data['grades']->id.'/xls') }}" class="btn btn-primary col-md-4">Export xls</a>
+        <a href="{{ url('admin/manage/student/export/'.$data['grades']->id.'/csv') }}" class="btn btn-primary col-md-4">Export csv</a>
+      </div>
 
-			<table class="table table-bordered">
-				<thead class="cf">
-					<tr>
-						<th>No</th>
-						<th>Name</th>
-						<th class="hidden-phone">Gender</th>
-						<th>Nis</th>
-						<th class="text-center">Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach( $data['students'] as $index => $student )
-					<tr>
-						<td data-title="No">{{ ++$index }}</td>
-						<td data-title="Category">{{ $student->name }}</td>
-						<td data-title="Category" class="hidden-phone">{{ $student->gender }}</td>
-						<td data-title="Category">{{ $student->nis }}</td>
-						<td class="text-center" data-title="Price">
-							<a href="{{ url('admin/manage/student/'.$data['courseId'].'/'.$data['gradeId'].'/edit/'.$student->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
-							<a href="{{ url('admin/manage/student/'.$data['courseId'].'/'.$data['gradeId'].'/destroy/'.$student->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
-						</td>
-					</tr>
-					@endforeach
-				</tbody>
-			</table>
-			<!--  -->
+      <table class="table table-bordered">
+        <thead class="cf">
+          <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th class="hidden-phone">Gender</th>
+            <th>Nis</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach( $data['students'] as $index => $student )
+          <tr>
+            <td data-title="No">{{ ++$index }}</td>
+            <td data-title="Category">{{ $student->name }}</td>
+            <td data-title="Category" class="hidden-phone">{{ $student->gender }}</td>
+            <td data-title="Category">{{ $student->nis }}</td>
+            <td class="text-center" data-title="Price">
+              <a href="{{ url('admin/manage/student/'.$data['courseId'].'/'.$data['gradeId'].'/edit/'.$student->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
+              <a href="{{ url('admin/manage/student/'.$data['courseId'].'/'.$data['gradeId'].'/destroy/'.$student->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Want To Delete This Student ? ')"><i class="fa fa-trash-o"></i></a>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
 		</div><!-- /content-panel -->
 	</div><!-- /col-lg-12 -->
 </div><!-- /row -->

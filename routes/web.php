@@ -26,7 +26,8 @@ Route::group( [ 'middleware' => 'web' ], function(){
 
 			Route::group( ['middleware' => 'opb'], function(){
 				Route::get('/',									'Admin\FeedbackController@index');
-				Route::get('/destroy/{id}',						'Admin\FeedbackController@destroy');
+				Route::get('/destroy',							'Admin\FeedbackController@destroy')->middleware('sal');
+				Route::get('/delete/{id}',						'Admin\FeedbackController@delete')->middleware('sal');
 			});
 
 			Route::get('/create',							'Admin\FeedbackController@create');
@@ -50,6 +51,7 @@ Route::group( [ 'middleware' => 'web' ], function(){
 
 		Route::group( ['prefix' => 'admin'], function(){
 			Route::get('/useredit',							'Admin\AdminController@useredit');
+			Route::get('/usereditpassword',					'Admin\AdminController@usereditpassword');
 			Route::post('/userupdate',						'Admin\AdminController@userupdate');
 			Route::group( ['middleware' => 'sal'], function(){
 				Route::get('/',									'Admin\AdminController@index')->name('admin');

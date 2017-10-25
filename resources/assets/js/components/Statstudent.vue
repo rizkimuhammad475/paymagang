@@ -10,20 +10,21 @@
                                             <option v-for="g in grade">{{g.step}} - {{g.division_name}}</option>
                                   </select> -->
                                   <select v-model="selected" class="form-control" v-on:click="fetchDataStudent()">
+                                    <option v-bind:value="0">Choose the grade</option>
                                       <option v-for="option in grade" v-bind:value="option.id">
                                         {{ option.step }} {{ option.division_name }}
                                       </option>
                                     </select>
                                 </div>
-                                <div class="col-md-3" style="margin: 5px 0px;">
+                                <div v-if="selected != 0" class="col-md-3" style="margin: 5px 0px;">
                                   <input type="search" class="form-control" placeholder="Search" v-on:keyup="fetchDataStudent()" v-model="search">
                                 </div>
-                                <div class="col-md-3" style="margin: 5px 0px;">
+                                <div v-if="selected != 0" class="col-md-3" style="margin: 5px 0px;">
                                     <select v-model="inpart" class="form-control" v-on:click="fetchDataStudent()">
                                       <option v-for="part in parts" v-bind:value="part.value">{{part.text}}</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2" style="margin: 5px 0px;">
+                                <div v-if="selected != 0" class="col-md-2" style="margin: 5px 0px;">
                                     <a :href="pdf+selected+dummy+inpart" class="bt btn-success form-control" style="text-align: center;">To PDF</a>
                                 </div>
                               </div>           
@@ -44,6 +45,9 @@
                     </div>
                 </div>
                 <div class="col-md-12" style="padding: 0px;">
+                    <div class="col-md-12" v-if="selected == 0" style="text-align: center;padding: 10px 0px;">
+                        <h3>Choose the grade</h3>
+                    </div>
                     <div class="col-md-12" v-for="s in student"  style="margin: 1px 0px;padding: 0px;background-color: #eee;">
                         <div class="col-md-12" style="margin: 3px 0px;padding: 5px 0px;">
                             <div v-if="inpart == 2" data-title="No" class="hidden-phone col-md-1 text-center">{{s.total}}</div>
@@ -74,7 +78,7 @@
                 grade:{},
                 search:'',
                 editForm:'',
-                selected: '1',
+                selected: '0',
                 inpart:'3',
                 price:'',
                 parts: [

@@ -5,9 +5,11 @@
     <ul class="sidebar-menu" id="nav-accordion">
       
       <p class="centered">
-        <a href="{{ url('admin/manage/admin/useredit') }}"><img src="{{ url('assets/img/roles/'.Auth::user()->role_id.'.png') }}" class="img-circle" width="60"></a>
+        <a href="{{ url('admin/manage/admin/usereditpassword') }}"><img src="{{ url('assets/img/roles/'.Auth::user()->role_id.'.png') }}" class="img-circle" width="60"></a>
       </p>
-      <h5 class="centered">{{ Auth::user()->username }}</h5>
+      <h5 class="centered">
+        <a href="{{ url('admin/manage/admin/useredit') }}" style="color: #fff;">{{ Auth::user()->username }}</a>
+      </h5>
       
       <li class="mt">
         <a href="{{  url('admin/manage/dashboard') }}">

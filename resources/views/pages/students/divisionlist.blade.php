@@ -15,6 +15,11 @@
 
 <div class="row mt">
 	<div class="col-lg-12">
+	@if(count($data['divisions']) == null)
+		<div class="col-md-12" v-if="grade" style="text-align: center;padding: 10px 0px;">
+            <h3>There is nothing divisions</h3>
+        </div>
+	@else
 		@foreach( $data['divisions'] as $index => $division )
 		<a href="{{url('admin/manage/student/'.$division->course_id.'/'.$division->id)}}">
 					<div class="col-md-4 col-sm-4 mb" style="padding:10px;border:1px solid #f4f4f4;">
@@ -26,26 +31,8 @@
 			            </div>
 			        </div><!-- /col-md-4 -->
 				</a>
-		<!-- <a href="{{url('admin/manage/student/'.$division->course_id.'/'.$division->id)}}">
-			<div class="col-md-4 col-sm-4 mb" style="padding:10px;border:1px solid #f4f4f4;">
-	            <div class="white-panel col-md-12 pn" style="padding:0px;">
-	                <div class="white-header col-md-12" style="background-color: #ffd777;color: #fff;">
-						<h5 style="font-weight: bolder;">{{ $division->step }} - {{ $division->division_name }}</h5>
-	                </div>
-					<div class="row">
-						<div class="col-sm-12 col-xs-12 centered">
-							<p><i class="fa fa-calendar"></i>
-								{{ \App\Student::where('grade_id',$division->id)->count()}} 
-							</p>
-						</div>
-		            </div>
-		            <div class="centered col-md-12" style="padding-bottom:15px;">
-						<img src="{{ url('assets/img/eb.jpg') }}" style="width:100%;height:200px;" class="img-thumbnail">
-		            </div>
-	            </div>
-	        </div><!-- /col-md-4 -->
-		<!-- </a> -->
 		@endforeach
+	@endif
 	</div><!-- /col-lg-12 -->
 </div><!-- /row -->
 @endsection

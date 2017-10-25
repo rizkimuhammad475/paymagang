@@ -42,7 +42,7 @@
 						@if(Auth::user()->role_id == 1)
 						<td class="text-center" data-title="Price">
 							<a href="{{ url('admin/manage/admin/edit/'.$admin->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
-							<a href="{{ url('admin/manage/admin/destroy/'.$admin->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+							<a href="{{ url('admin/manage/admin/destroy/'.$admin->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Want To Delete This Admin ? ')"><i class="fa fa-trash-o"></i></a>
 						</td>
 						@else
 

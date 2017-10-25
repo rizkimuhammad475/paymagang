@@ -32,6 +32,7 @@ class PayController extends Controller
 
     		'grade'		=>		$grade,
     		'student'	=>		$student,
+    		'callprice'	=>		Callprice(),
 
     	]);
 	}
@@ -46,22 +47,27 @@ class PayController extends Controller
 		$category->pay 								= $request->price;
 		$category->student_id 						= $id;
 		$category->user_id 							= \Auth::user()->id;
+		$category->created_at						= date('Y-m-d H:i:s');
 		$category->save();
 
 		$search							=	$request->search;
 		$grade							=	$request->grade;
 
-		$student1 						= 	\App\Student::where('grade_id',$grade)->where('name','LIKE',"%$search%")->orderBy('name')->get();
-		$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->groupBy('students.id')->select('students.*')->get();
-		$student						=	$student1->diff($student2);
+		$student1 						= 	\App\Student::where('grade_id',$grade)->where('name','like','%'.$search.'%')->orderBy('name')->get();
+		$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->select('students.*',\DB::raw('sum(transactions.pay) as total'))->groupBy('students.id')->get();
+		
+		$student3						=	$student2->where('total','>=',Callprice());
+		$student4						=	$student3->forget('total');
 
-		$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id order by steps.step");
+		$student						=	$student1->diff($student4);
+		$price							=	Callprice();
 
 		// return view( 'pages.pays.list', compact( 'data' ) );
 		return response()->json([
 
     		'grade'		=>		$grade,
     		'student'	=>		$student,
+    		'callprice'	=>		$price,
 
     	]);
 		

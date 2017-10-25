@@ -25,7 +25,12 @@ class StatstudentController extends Controller
 			$result	=	collect($student);
 			$data	=	$result->where('total','>=',Callprice());
 		}
-		$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id order by steps.step");
+		if (\Auth::user()->role_id != 3) {
+			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id order by steps.step");
+		}else{
+			$course 						=	\Auth::user()->course_id;
+			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id and divisions.course_id=$course group by grades.id order by steps.step");
+		}
 
 		// return view( 'pages.pays.list', compact( 'data' ) );
 		return response()->json([

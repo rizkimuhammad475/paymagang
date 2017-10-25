@@ -41,7 +41,7 @@
 						<td data-title="Category">{{ $course->course_name }}</td>
 						<td class="text-center" data-title="Price">
 							<a href="{{ url('admin/manage/course/edit/'.$course->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a>
-							<a href="{{ url('admin/manage/course/destroy/'.$course->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+							<a href="{{ url('admin/manage/course/destroy/'.$course->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure Want To Delete This Course ? ')"><i class="fa fa-trash-o"></i></a>
 						</td>
 					</tr>
 					@endforeach

@@ -31,15 +31,19 @@
                           <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label">Course</label>
                             <div class="col-sm-10">
-                              <select name="course_id" class="form-control">
-                                  @foreach($data['course'] as $index => $course)
-                                    @if($course->id == 1)
+                              @if($data['course']->count()-1 == null)
+                                <a href="{{ url('admin/manage/course/') }}" class="btn btn-success" style="text-align: center;width: 100%">ADD Course</a>
+                              @else
+                                <select name="course_id" class="form-control">
+                                    @foreach($data['course'] as $index => $course)
+                                      @if($course->id == 1)
 
-                                    @else
-                                      <option value="{{$course->id}}">{{$course->course_name}}</option>
-                                    @endif
-                                  @endforeach
-                              </select>
+                                      @else
+                                        <option value="{{$course->id}}">{{$course->course_name}}</option>
+                                      @endif
+                                    @endforeach
+                                  </select>
+                              @endif
                             </div>
                           </div>
                            <div class="form-group">

@@ -9,9 +9,6 @@ class FeedbackController extends Controller
 {
     public function index()
     {
-    	$feedbacks									=	\App\Feedback::where('is_read',0);
-    	$feedbacks->update(['is_read'=>1]);
-
 		$data['feedbacks']							=	\App\Feedback::paginate(20);
 
 		return view('pages.feedbacks.list', compact( 'data' ));
@@ -38,8 +35,22 @@ class FeedbackController extends Controller
     	return \Redirect::back()->with('sc_msg','Feedback Successfully Send');
     }
 
-    public function destroy(Request $request,$id)
+    public function delete(Request $request,$id)
     {
-    	# code...
+        $destroy                                    =   \App\Feedback::find($id);
+        $destroy->delete();
+
+        return \Redirect::back()->with('sc_msg','Current Feedback Successfully Deleted');
+
+
+    }
+
+    public function destroy(Request $request)
+    {
+    	$destroy                                    =   \App\Feedback::truncate();
+
+        return \Redirect::back()->with('sc_msg','All Feedback Successfully Deleted');
+
+
     }
 }

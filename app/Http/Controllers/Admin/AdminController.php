@@ -35,6 +35,7 @@ class AdminController extends Controller
 		$user->username 							= $request->username;
 		$user->email 								= $request->email;
 		$user->password 							= bcrypt($request->password);
+		$user->created_at							= date('Y-m-d H:i:s');
 		$user->role_id 								= 2;
 		$user->course_id 							= 1;
 		$user->save();
@@ -51,6 +52,10 @@ class AdminController extends Controller
 	{
 		$admin 									= \App\User::where('id',\Auth::user()->id)->get();
 		return view('pages.admins.edituser', compact('admin'));
+	}
+	public function usereditpassword()
+	{
+		return view('pages.admins.edituserpassword');
 	}
 	public function update(Request $request,$id)
 	{
@@ -77,20 +82,18 @@ class AdminController extends Controller
 
 	public function userupdate(Request $request)
 	{
-		$data										= $request->all();
+		$data												= 	$request->all();
 
-		$validator = \Validator::make($data, [//->Memanggil class Validator dan mengambil semua data inputan
-            'username' 								=> 'required|string|max:50|min:3',
-            'email' 								=> 'required|string|email',
-            'old_password'							=> 'required_unless:new_password,'.null.'',
-            'new_password'							=> 'required_unless:con_new_password,'.null.'|same:con_new_password',
-            'con_new_password'						=> 'required_unless:old_password,'.null.'|same:new_password'
-        ]);
+		if (isset($request->edituser)) {
 
-        if ($validator->fails()) {
+			$validator = \Validator::make($data, [//->Memanggil class Validator dan mengambil semua data inputan
+	            'username' 									=> 'required|string|max:50|min:3',
+	            'email' 									=> 'required|string|email',
+        	]);
+
+        	if ($validator->fails()) {
 			return \Redirect::back()->with('err_msg', $validator->errors()->all() )->withInput($data);
-		}else{
-			if ($request->old_password == null || $request->new_password == null || $request->con_new_password == null) {
+			}
 				$admin 										= \App\User::find(\Auth::user()->id);
 
 				$admin->username							= $request->username;
@@ -99,14 +102,34 @@ class AdminController extends Controller
 				$admin->save();
 				return \Redirect::to('admin/manage/dashboard')
 							->with('sc_msg', 'Admin profile successfuly edited');
-			}else{
+
+		}elseif (isset($request->edituserpassword)) {
+			
+			$validator = \Validator::make($data, [//->Memanggil class Validator dan mengambil semua data inputan
+	            'old_password'							=> 'required_unless:new_password,'.null.'',
+	            'new_password'							=> 'required_unless:con_new_password,'.null.'|same:con_new_password',
+	            'con_new_password'						=> 'required_unless:old_password,'.null.'|same:new_password'
+	        ]);
+
+	        if ($validator->fails()) {
+				return \Redirect::back()->with('err_msg', $validator->errors()->all() )->withInput($data);
+			}
 				$author 							=	\Hash::check($request->old_password,\Auth::user()->password);
 				if ($author == true) {
-					# code...
+					$admin 										= \App\User::find(\Auth::user()->id);
+
+					$admin->password							= bcrypt($request->new_password);
+
+					$admin->save();
+					return \Redirect::to('admin/manage/dashboard')
+								->with('sc_msg', 'Admin profile successfuly edited');
 				}
-			}
+					return \Redirect::back()
+							->with('err_msg', 'Old password is wrong');
+		}else{
+			return \Redirect::back()
+							->with('err_msg', 'Something eror while processing request');
 		}
-		
 	}
 	public function destroy($id)
 	{

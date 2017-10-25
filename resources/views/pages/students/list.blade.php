@@ -14,6 +14,11 @@
 
 <div class="row mt">
 	<div class="col-lg-12">
+	@if($data['courses']->count()-1 == null)
+		<div class="col-md-12" v-if="grade" style="text-align: center;padding: 10px 0px;">
+            <h3>There is nothing courses</h3>
+        </div>
+	@else
 		@foreach( $data['courses'] as $index => $course )
 			@if($course->id == 1)
 
@@ -30,6 +35,7 @@
 				</a>
 			@endif
 		@endforeach
+	@endif
 	</div><!-- /col-lg-12 -->
 </div><!-- /row -->
 @endsection

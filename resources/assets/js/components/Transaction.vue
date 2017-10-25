@@ -30,6 +30,9 @@
                           </form>
         </div><!-- /content-panel -->
         </div>
+        <div class="col-md-12" style="text-align: center;padding: 10px 0px;">
+            <h3>There is nothing transactions</h3>
+        </div>
         <div class="col-md-12">
             <div class="form-panel col-md-12">
             <div class="col-md-12" style="padding: 0px;">
