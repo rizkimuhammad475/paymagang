@@ -16,9 +16,9 @@ class DashboardController extends Controller
 
 		$data['superadmins']						=	\App\User::where('role_id',1)->get();
 
-		$data['admins']								=	\DB::select('select users.*,count(transactions.pay) as serve,courses.course_name from users,transactions,courses where users.id=transactions.user_id and users.course_id=courses.id and users.role_id=2 group by users.id order by serve desc,users.created_at asc');
+		$data['admins']								=	\DB::select('select users.*,count(transactions.pay) as serve,courses.course_name from users,transactions,courses where users.id=transactions.user_id and users.course_id=courses.id and users.role_id=2 group by users.id,users.username,users.email,users.password,users.read_guide,users.role_id,users.course_id,users.remember_token,users.created_at,users.updated_at,courses.course_name order by serve desc,users.created_at asc');
 
-		$data['operators']								=	\DB::select('select users.*,count(transactions.pay) as serve,courses.course_name from users,transactions,courses where users.id=transactions.user_id and users.course_id=courses.id and users.role_id=3 group by users.id order by serve desc,users.created_at asc');
+		$data['operators']								=	\DB::select('select users.*,count(transactions.pay) as serve,courses.course_name from users,transactions,courses where users.id=transactions.user_id and users.course_id=courses.id and users.role_id=3 group by users.id,users.username,users.email,users.password,users.read_guide,users.role_id,users.course_id,users.remember_token,users.created_at,users.updated_at,courses.course_name order by serve desc,users.created_at asc');
 
 		return view( 'pages.dashboard',compact('data'));
 	}

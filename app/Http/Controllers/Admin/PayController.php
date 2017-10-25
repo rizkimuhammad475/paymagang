@@ -13,7 +13,7 @@ class PayController extends Controller
 		$grade							=	$request->grade;
 
 		$student1 						= 	\App\Student::where('grade_id',$grade)->where('name','like','%'.$search.'%')->orderBy('name')->get();
-		$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->select('students.*',\DB::raw('sum(transactions.pay) as total'))->groupBy('students.id')->get();
+		$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->select('students.*',\DB::raw('sum(transactions.pay) as total'))->groupBy('students.id','students.name','students.gender','students.nis','students.grade_id','students.created_at','students.updated_at')->get();
 		
 		$student3						=	$student2->where('total','>=',Callprice());
 		$student4						=	$student3->forget('total');

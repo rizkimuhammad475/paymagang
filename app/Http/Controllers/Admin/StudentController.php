@@ -16,7 +16,7 @@ class StudentController extends Controller
 
 	public function division($courseId)
 	{
-		$data[ 'divisions' ] 						= 	\DB::select("select grades.*,divisions.division_name,divisions.course_id,steps.step from grades,divisions,steps where grades.division_id=divisions.id and grades.step_id=steps.id and divisions.course_id='$courseId' group by grades.id order by divisions.division_name");
+		$data[ 'divisions' ] 						= 	\DB::select("select grades.*,divisions.division_name,divisions.course_id,steps.step from grades,divisions,steps where grades.division_id=divisions.id and grades.step_id=steps.id and divisions.course_id='$courseId' group by grades.id,grades.step_id,grades.division_id,divisions.division_name,divisions.course_id,steps.step order by divisions.division_name");
 
 		return view( 'pages.students.divisionlist', compact( 'data' ) );
 	}
