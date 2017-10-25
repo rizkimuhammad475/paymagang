@@ -21,10 +21,10 @@ class PayController extends Controller
 		$student						=	$student1->diff($student4);
 
 		if (\Auth::user()->role_id != 3) {
-			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id order by steps.step");
+			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id,steps.step,divisions.division_name order by steps.step");
 		}else{
 			$course 						=	\Auth::user()->course_id;
-			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id and divisions.course_id=$course group by grades.id order by steps.step");
+			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id and divisions.course_id=$course group by grades.id,steps.step,divisions.division_name order by steps.step");
 		}
 
 		// return view( 'pages.pays.list', compact( 'data' ) );
@@ -54,7 +54,7 @@ class PayController extends Controller
 		$grade							=	$request->grade;
 
 		$student1 						= 	\App\Student::where('grade_id',$grade)->where('name','like','%'.$search.'%')->orderBy('name')->get();
-		$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->select('students.*',\DB::raw('sum(transactions.pay) as total'))->groupBy('students.id')->get();
+		$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->select('students.*',\DB::raw('sum(transactions.pay) as total'))->groupBy('students.id','students.name','students.gender','students.nis','students.grade_id','students.created_at','students.updated_at')->get();
 		
 		$student3						=	$student2->where('total','>=',Callprice());
 		$student4						=	$student3->forget('total');
