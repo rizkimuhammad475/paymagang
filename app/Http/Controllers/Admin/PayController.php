@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 
 class PayController extends Controller
 {
-   	public function index(Request $request)
+   	public function index(Request $request,$gid)
 	{
 		$search							=	$request->search;
-		$grade							=	$request->grade;
+		$grade							=	$gid;
 
 		$student1 						= 	\DB::select("select students.*,sum(transactions.pay) as total from students left join transactions on students.id=transactions.student_id where students.grade_id = 11 and students.name like '%$search%' group by students.id,students.name,students.gender,students.nis,students.grade_id,students.created_at,students.updated_at order by students.name");
 		$student2						=	collect($student1);

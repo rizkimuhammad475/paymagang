@@ -105,7 +105,7 @@
             },
             fetchDataStudent:function(){
                 var vm = this
-                axios.get(`${this.url}?search=${this.search}&grade=${this.selected}`)
+                axios.get('pay/getdata/'+this.selected+'?search='+this.search)
                         .then(function (response) {
                             Vue.set(vm.$data, 'grade',response.data.grade)
                             Vue.set(vm.$data, 'student',response.data.student)

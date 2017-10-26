@@ -131,7 +131,7 @@ Route::group( [ 'middleware' => 'web' ], function(){
 		});
 
 		Route::group( ['prefix' => 'pay'], function(){
-			Route::get('/getdata',							'Admin\PayController@index');
+			Route::get('/getdata/{gid}',							'Admin\PayController@index');
 			Route::get('/', function () {return view('pages.pays.test');});
 			Route::post('/pay/{id}',						'Admin\PayController@store');
 			Route::get('/detail/{id}',						'Admin\PayController@detail');
