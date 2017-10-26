@@ -14,22 +14,22 @@ class StatstudentController extends Controller
 		$grade							=	$request->grade;
 		if ($part == 1) {
 			$student1						=	\App\Student::where('grade_id',$grade)->where('name','like','%'.$search.'%')->get();
-			$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->groupBy('students.id')->select('students.*')->get();
+			$student2 						= 	\App\Student::join('transactions','students.id','=','transactions.student_id')->groupBy('students.id','students.name','students.gender','students.nis','students.grade_id','students.created_at','students.updated_at')->select('students.*')->get();
 			$data							=	$student1->diff($student2);
 		}elseif ($part == 2) {
-			$student 						= 	\DB::select("select students.*,sum(transactions.pay) as total from students,transactions where students.id=transactions.student_id and students.grade_id=$grade and students.name like '%$search%' group by students.id order by students.name");
+			$student 						= 	\DB::select("select students.*,sum(transactions.pay) as total from students,transactions where students.id=transactions.student_id and students.grade_id=$grade and students.name like '%$search%' group by students.id,students.name,students.gender,students.nis,students.grade_id,students.created_at,students.updated_at  order by students.name");
 			$result	=	collect($student);
 			$data	=	$result->where('total','<',Callprice());
 		}else{
-			$student 						= 	\DB::select("select students.*,sum(transactions.pay) as total from students,transactions where students.id=transactions.student_id and students.grade_id=$grade and students.name like '%$search%' group by students.id order by students.name");
+			$student 						= 	\DB::select("select students.*,sum(transactions.pay) as total from students,transactions where students.id=transactions.student_id and students.grade_id=$grade and students.name like '%$search%' group by students.id,students.name,students.gender,students.nis,students.grade_id,students.created_at,students.updated_at  order by students.name");
 			$result	=	collect($student);
 			$data	=	$result->where('total','>=',Callprice());
 		}
 		if (\Auth::user()->role_id != 3) {
-			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id order by steps.step");
+			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id,steps.step,divisions.division_name order by steps.step");
 		}else{
 			$course 						=	\Auth::user()->course_id;
-			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id and divisions.course_id=$course group by grades.id order by steps.step");
+			$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id and divisions.course_id=$course group by grades.id,steps.step,divisions.division_name order by steps.step");
 		}
 
 		// return view( 'pages.pays.list', compact( 'data' ) );
