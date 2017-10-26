@@ -28,8 +28,7 @@
             <div class="col-md-12" style="padding: 0px;">
                 <div class="cf col-md-12" style="padding: 0px;">
                     <div>
-                        <div class="hidden-phone text-center col-md-1" style="padding: 5px;background-color: #ffd777;">No</div>
-                        <div class="hidden-phone text-center col-md-2" style="padding: 5px;background-color: #ffd777;">NIS</div>
+                        <div class="hidden-phone text-center col-md-3" style="padding: 5px;background-color: #ffd777;">NIS</div>
                         <div class="hidden-phone text-center col-md-4" style="padding: 5px;background-color: #ffd777;">Name</div>
                         <div class="hidden-phone text-center col-md-2" style="padding: 5px;background-color: #ffd777;">Gender</div>
                         <div class="hidden-phone text-center col-md-3" style="padding: 5px;background-color: #ffd777;">Action</div>
@@ -41,8 +40,7 @@
                     </div>
                     <div class="col-md-12" v-for="(s, index) in student"  style="margin: 1px 0px;padding: 0px;background-color: #eee;">
                         <div class="col-md-12" style="margin: 3px 0px;padding: 5px 0px;">
-                            <div data-title="No" class="hidden-phone col-md-1 text-center">{{index+1}}</div>
-                            <div data-title="Category" class="col-md-2 text-center">{{s.nis}}</div>
+                            <div data-title="Category" class="col-md-3 text-center">{{s.nis}}</div>
                             <div data-title="Category" class="col-md-4 text-center">{{s.name}}</div>
                             <div data-title="Category" class="col-md-2 text-center">{{s.gender}}</div>
                             <div class="col-md-3 text-center" data-title="Price">

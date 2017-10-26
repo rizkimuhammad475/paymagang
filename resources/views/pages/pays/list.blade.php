@@ -32,7 +32,6 @@
 			<table class="table table-bordered">
 				<thead class="cf">
 					<tr>
-						<th>No</th>
 						<th>NIS</th>
 						<th>Name</th>
 						<th>Gender</th>
@@ -42,7 +41,6 @@
 				<tbody>
 					@foreach( $data['students'] as $index => $student )
 					<tr>
-						<td data-title="No">{{ ++$index }}</td>
 						<td data-title="Category">{{ $student->nis }}</td>
 						<td data-title="Category">{{ $student->name }}</td>
 						<td data-title="Category">{{ $student->gender }}</td>

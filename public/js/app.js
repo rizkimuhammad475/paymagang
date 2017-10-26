@@ -42098,8 +42098,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -42276,12 +42274,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "padding": "5px 0px"
       }
     }, [_c('div', {
-      staticClass: "hidden-phone col-md-1 text-center",
-      attrs: {
-        "data-title": "No"
-      }
-    }, [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('div', {
-      staticClass: "col-md-2 text-center",
+      staticClass: "col-md-3 text-center",
       attrs: {
         "data-title": "Category"
       }
@@ -42398,13 +42391,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "padding": "0px"
     }
   }, [_c('div', [_c('div', {
-    staticClass: "hidden-phone text-center col-md-1",
-    staticStyle: {
-      "padding": "5px",
-      "background-color": "#ffd777"
-    }
-  }, [_vm._v("No")]), _vm._v(" "), _c('div', {
-    staticClass: "hidden-phone text-center col-md-2",
+    staticClass: "hidden-phone text-center col-md-3",
     staticStyle: {
       "padding": "5px",
       "background-color": "#ffd777"
