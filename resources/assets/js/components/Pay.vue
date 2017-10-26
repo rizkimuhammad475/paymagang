@@ -87,7 +87,7 @@
                 ],
                 callprice:0,
                 link:'pay/detail/',
-                url:'pay/getdata',
+                url:'http://rizki.domainkamu.xyz/admin/manage/pay/getdata',
                 addData:{'price':''}
             }
         },

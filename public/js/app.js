@@ -41901,7 +41901,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/muhammadrizki/projects/paymagang/resources/assets/js/components/Example.vue"
+Component.options.__file = "/var/www/paymagang/resources/assets/js/components/Example.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -41999,7 +41999,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/muhammadrizki/projects/paymagang/resources/assets/js/components/Pay.vue"
+Component.options.__file = "/var/www/paymagang/resources/assets/js/components/Pay.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Pay.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -42115,7 +42115,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             options: [{ text: 'One', value: 'A' }, { text: 'Two', value: 'B' }, { text: 'Three', value: 'C' }],
             callprice: 0,
             link: 'pay/detail/',
-            url: 'pay/getdata',
+            url: 'http://rizki.domainkamu.xyz/admin/manage/pay/getdata',
             addData: { 'price': '' }
         };
     },
@@ -42468,7 +42468,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/muhammadrizki/projects/paymagang/resources/assets/js/components/Transaction.vue"
+Component.options.__file = "/var/www/paymagang/resources/assets/js/components/Transaction.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Transaction.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -43010,7 +43010,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/muhammadrizki/projects/paymagang/resources/assets/js/components/Statstudent.vue"
+Component.options.__file = "/var/www/paymagang/resources/assets/js/components/Statstudent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Statstudent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -43438,7 +43438,7 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/home/muhammadrizki/projects/paymagang/resources/assets/js/components/Guide.vue"
+Component.options.__file = "/var/www/paymagang/resources/assets/js/components/Guide.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Guide.vue: functional components are not supported with templates, they should use render functions.")}
 
