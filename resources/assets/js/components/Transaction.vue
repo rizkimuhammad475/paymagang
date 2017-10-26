@@ -10,6 +10,7 @@
                                             <option v-for="g in grade">{{g.step}} - {{g.division_name}}</option>
                                   </select> -->
                                   <select v-model="selected" class="form-control" v-on:click="fetchDataStudent()">
+                                    <option v-bind:value="0">Choose the grade</option>
                                       <option v-for="option in grade" v-bind:value="option.id">
                                         {{ option.step }} {{ option.division_name }}
                                       </option>
@@ -29,9 +30,6 @@
                                 </div>         
                           </form>
         </div><!-- /content-panel -->
-        </div>
-        <div class="col-md-12" style="text-align: center;padding: 10px 0px;">
-            <h3>There is nothing transactions</h3>
         </div>
         <div class="col-md-12">
             <div class="form-panel col-md-12">
@@ -80,6 +78,7 @@
 
 <script>
     import axios from 'axios'
+    import swal from 'sweetalert'
 
     export default {
         data() {
@@ -88,7 +87,7 @@
                 grade:{},
                 search:'',
                 editForm:'',
-                selected: '1',
+                selected: '0',
                 price:'',
                 options: [
                   { text: 'One', value: 'A' },
@@ -138,20 +137,26 @@
                         .then(function (response){
                             Vue.set(vm.$data, 'grade',response.data.grade)
                             Vue.set(vm.$data, 'transaction',response.data.transaction)
-                            alert('Delete Successfully')
+                            swal({  text:'Delete Successfully',
+                                icon: 'success'
+                            })
                         })
             },
             edited(tid){
                 var vm = this
                 var dataInput = vm.addData
                 if (dataInput.price == "") {
-                    alert('Price can not be empty')
+                    swal({  text:'Price can not be empty',
+                                icon: 'error'
+                        })
                 }else{
                 axios.post('transaction/edit/'+tid+'/'+vm.selected+'?search='+vm.search, dataInput)
                         .then(function (response){
                             Vue.set(vm.$data, 'grade',response.data.grade)
                             Vue.set(vm.$data, 'transaction',response.data.transaction)
-                            alert('Edit Successfully')
+                            swal({  text:'Edit Successfully',
+                                icon: 'success'
+                            })
                         })
                 }
             }

@@ -68,6 +68,8 @@
 
 <script>
     import axios from 'axios'
+    import swal from 'sweetalert'
+
 
     export default {
         data() {
@@ -120,17 +122,23 @@
                 var vm = this
                 var dataInput = vm.addData
                 if (dataInput.price == "") {
-                    alert('Price can not be empty')
+                    swal({  text:'Price can not be empty',
+                                icon: 'error'
+                        })
                 }else{
                     if (dataInput.price > vm.callprice) {
-                        alert('Pay can not be more than price')
+                        swal({  text:'Pay can not be more than price',
+                                icon: 'error'
+                            })
                     }else{
                         axios.post('pay/pay/'+sid+'?search='+this.search+'&grade='+this.selected, dataInput)
                         .then(function (response) {
                             Vue.set(vm.$data, 'grade',response.data.grade)
                             Vue.set(vm.$data, 'student',response.data.student)
                             Vue.set(vm.$data, 'callprice',response.data.callprice)
-                            alert('Pay Successfully')
+                            swal({  text:'Pay Successfully',
+                                icon: 'success'
+                            })
                         })
                     }
                 }
