@@ -12,7 +12,7 @@ class PayController extends Controller
 		$search							=	$request->search;
 		$grade							=	$gid;
 
-		$student1 						= 	\DB::select("select students.*,sum(transactions.pay) as total from students left join transactions on students.id=transactions.student_id where students.grade_id = 11 and students.name like '%$search%' group by students.id,students.name,students.gender,students.nis,students.grade_id,students.created_at,students.updated_at order by students.name");
+		$student1 						= 	\DB::select("select students.*,sum(transactions.pay) as total from students left join transactions on students.id=transactions.student_id where students.grade_id = $grade and students.name like '%$search%' group by students.id,students.name,students.gender,students.nis,students.grade_id,students.created_at,students.updated_at order by students.name");
 		$student2						=	collect($student1);
 		$student3						=	$student2->where('total','<',Callprice());
 
