@@ -37,9 +37,9 @@ class TransactionController extends Controller
 		$search							=	$request->search;
 		$grade							=	$gid;
 		$transaction 					= 	
-		\DB::select("select students.id as sid,students.nis,transactions.pay,transactions.created_at,transactions.id as tid,students.name,transactions.id,users.username,steps.step,divisions.division_name from transactions,students,users,grades,steps,divisions where transactions.student_id=students.id and transactions.user_id=users.id and students.grade_id=grades.id and grades.step_id=steps.id and grades.division_id=divisions.id and grades.id='$grade' and students.name like '%$search%' group by students.id,transactions.pay,transactions.created_at,transactions.id order by transactions.id desc limit 20");
+		\DB::select("select students.id as sid,students.nis,transactions.pay,transactions.created_at,transactions.id as tid,students.name,transactions.id,users.username,steps.step,divisions.division_name from transactions,students,users,grades,steps,divisions where transactions.student_id=students.id and transactions.user_id=users.id and students.grade_id=grades.id and grades.step_id=steps.id and grades.division_id=divisions.id and grades.id='$grade' and students.name like '%$search%' group by students.id,students.name,students.nis,students.grade_id,students.gender,users.username,steps.step,divisions.division_name,transactions.pay,transactions.created_at,transactions.id order by transactions.id desc limit 20");
 		// \App\Student::where('grade_id',$grade)->where('name','LIKE',"%$search%")->orderBy('grade_id')->get();
-		$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id order by steps.step");
+		$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id,steps.step,divisions.division_name order by steps.step,divisions.division_name");
 
 		// return view( 'pages.pays.list', compact( 'data' ) );
 		return response()->json([
@@ -58,9 +58,9 @@ class TransactionController extends Controller
 		$search							=	$request->search;
 		$grade							=	$gid;
 		$transaction 					= 	
-		\DB::select("select students.id as sid,students.nis,transactions.pay,transactions.created_at,transactions.id as tid,students.name,transactions.id,users.username,steps.step,divisions.division_name from transactions,students,users,grades,steps,divisions where transactions.student_id=students.id and transactions.user_id=users.id and students.grade_id=grades.id and grades.step_id=steps.id and grades.division_id=divisions.id and grades.id='$grade' and students.name like '%$search%' group by students.id,transactions.pay,transactions.created_at,transactions.id order by transactions.id desc limit 20");
+		\DB::select("select students.id as sid,students.nis,transactions.pay,transactions.created_at,transactions.id as tid,students.name,transactions.id,users.username,steps.step,divisions.division_name from transactions,students,users,grades,steps,divisions where transactions.student_id=students.id and transactions.user_id=users.id and students.grade_id=grades.id and grades.step_id=steps.id and grades.division_id=divisions.id and grades.id='$grade' and students.name like '%$search%' group by students.id,students.name,students.nis,students.grade_id,students.gender,users.username,steps.step,divisions.division_name,transactions.pay,transactions.created_at,transactions.id order by transactions.id desc limit 20");
 		// \App\Student::where('grade_id',$grade)->where('name','LIKE',"%$search%")->orderBy('grade_id')->get();
-		$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id order by steps.step");
+		$grade							=	\DB::select("select grades.id,steps.step,divisions.division_name from grades,steps,divisions where grades.step_id=steps.id and grades.division_id=divisions.id group by grades.id,steps.step,divisions.division_name order by steps.step,divisions.division_name");
 
 		// return view( 'pages.pays.list', compact( 'data' ) );
 		return response()->json([
